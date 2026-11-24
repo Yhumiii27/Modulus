@@ -1,0 +1,4 @@
+option_code;regle;option_ou_condition_cible;explication
+OPT-A;exclut;OPT-B;les deux options sont incompatibles
+OPT-C;impose;OPT-D;C ne fonctionne pas sans D
+OPT-E;obligatoire_si;capacite_nominale>=40;obligatoire au-delà de 40 t/h

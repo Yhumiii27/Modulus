@@ -1,0 +1,3 @@
+type_code;caracteristique;unite;obligatoire;exemple_valeur
+EMP;encombrement_longueur;mm;oui;12000
+EMP;puissance_installee;kW;oui;250

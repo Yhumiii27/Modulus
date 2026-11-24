@@ -8,6 +8,10 @@
   (`POST /api/v1/quote-requests`, signée, rattachée au besoin machine du CAPEX) ; Arche ne stocke que le numéro de la
   demande et lit la réponse par une vue `pub_`.
 
+- Pour un client sans accès aux outils (cas 2 et 3, D-17) : le commercial ouvre la demande dans l'affaire ; Modulus
+  produit le questionnaire en PDF à envoyer au client, le commercial reporte les réponses (ou la filiale intermédiaire les
+  saisit si elle a un accès).
+
 ## 2. Questionnaire type
 
 Un questionnaire par **famille** (type de machine × catégorie d'option, D-10), versionné comme le catalogue, tenu par
@@ -35,7 +39,9 @@ incomplète est refusée avec la liste des réponses manquantes.
    (comme `need_answers.estimate_class` de Keystone : indicatif, devis, offre ferme), hypothèses, validité.
 3. **Réponse** : publiée à Arche (vue) ou ajoutée à l'offre de l'affaire ; questions de retour possibles au demandeur
    (fil de la demande).
-4. Suivi : délai de réponse cible par classe (D-11), relances, échéance au chiffreur.
+4. Suivi : délai de réponse cible par classe (D-11 : 5 / 15 / 30 jours ouvrés par défaut, **réglables** dans l'administration
+   de Modulus), relances, échéance au chiffreur. Les questionnaires (tronc commun et questions par type × catégorie, D-10) se
+   modifient par l'ingénierie sans développement.
 
 ## 4. Ce que devient l'option
 

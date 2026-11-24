@@ -1,0 +1,2 @@
+affaire;cas(1|2|3);client;filiale;annee;machine_code;quantite;options_catalogue;options_specifiques;prix_vente_keur;budget_keur;cout_reel_keur;projet_keystone;difficultes_rex
+AF-2024-001;1;Nom du client;FIL-XX;2024;EMP-40T;1;OPT-XX;Trémie élargie;900;650;700;HLT-026;retard sur la trémie spécifique

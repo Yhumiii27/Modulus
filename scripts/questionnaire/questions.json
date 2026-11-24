@@ -1,166 +1,325 @@
 [
   {
-    "id": "D-1", "group": "prio",
+    "id": "D-1",
+    "group": "prio",
     "title": "Les réponses aux besoins machines des CAPEX passent-elles de Keystone à Modulus ?",
     "context": "Aujourd’hui Keystone répond aux besoins machines des CAPEX d’Arche (contrat K-02 : qualification, prix indicatif, devis, offre ferme, projet créé à la commande). Ces réponses portent sur des configurations du catalogue et sur des options cotées, donc sur ce que Modulus tiendra.",
     "proposal": "Oui : demandes de cotation et réponses dans Modulus (publiées à Arche) ; Keystone ne garde que l’exécution et crée le projet à partir de la configuration vendue.",
-    "alts": ["Non : les réponses restent dans Keystone, Modulus ne fournit que le catalogue et les prix"],
+    "alts": [
+      "Non : les réponses restent dans Keystone, Modulus ne fournit que le catalogue et les prix"
+    ],
     "blocks": "L4"
   },
   {
-    "id": "D-3", "group": "prio",
+    "id": "D-3",
+    "group": "prio",
     "title": "Où vivent les clients externes ?",
     "context": "Une affaire porte un client (externe, ou une filiale du groupe pour un CAPEX). Il faut savoir si Modulus tient la fiche client ou lit un autre outil.",
     "proposal": "Dans Modulus : raison sociale, pays, contacts commerciaux, SIRET / TVA, sans aucune donnée comptable (facturation et comptes restent dans Sage).",
-    "alts": ["Lus dans un CRM existant (Modulus ne garde que l’identifiant)", "Lus dans Sage"],
+    "alts": [
+      "Lus dans un CRM existant (Modulus ne garde que l’identifiant)",
+      "Lus dans Sage"
+    ],
     "blocks": "L3"
   },
   {
-    "id": "D-15", "group": "prio",
+    "id": "D-15",
+    "group": "prio",
     "title": "Qui voit le budget (coût de revient) et la marge ?",
     "context": "Deux prix, jamais mélangés : le budget (interne, pour Keystone) et le prix de vente (pour Arche et les clients). Arche et les filiales ne voient jamais le coût ni la marge.",
     "proposal": "Chiffreurs, direction commerciale, direction de portefeuille et direction générale ; pas les commerciaux (ils voient le prix de vente et le niveau de marge en feu tricolore).",
-    "alts": ["Aussi les commerciaux, en clair", "Seulement la direction commerciale et la direction générale"],
+    "alts": [
+      "Aussi les commerciaux, en clair",
+      "Seulement la direction commerciale et la direction générale"
+    ],
     "blocks": "L2"
   },
   {
-    "id": "D-5", "group": "catalogue",
+    "id": "D-16",
+    "group": "prio",
+    "title": "Qui tient la fiche des clients ?",
+    "context": "Suite de D-3. Keystone tient déjà les clients, internes (filiales de Matrix) et externes, et les publie (keystone.pub_clients). Modulus aura aussi des prospects, jamais livrés.",
+    "proposal": "Modulus lit les clients de Keystone ; un prospect se crée dans Modulus ; à la commande, le client est créé dans Keystone s'il n'y est pas (par l'API de Keystone).",
+    "alts": [
+      "Modulus devient la source des clients, Keystone les lit",
+      "Chacun tient ses clients"
+    ],
+    "blocks": "L3"
+  },
+  {
+    "id": "D-17",
+    "group": "prio",
+    "title": "Comment recueillir le besoin d'un client sans accès aux outils (cas 2 et 3) ?",
+    "context": "Suite de D-3. Un site minier qui achète par l'intermédiaire d'une filiale (cas 2), ou un client direct d'EPC2i (cas 3), n'a accès ni à Arche ni à Modulus.",
+    "proposal": "Le commercial saisit l'affaire et le questionnaire de cotation dans Modulus ; Modulus produit le questionnaire en PDF à envoyer au client, puis le commercial reporte les réponses ; la filiale intermédiaire peut saisir la demande si elle a un accès Modulus.",
+    "alts": [
+      "Formulaire en ligne sécurisé pour le client (lien à usage unique), à valider par la DSI",
+      "La filiale intermédiaire saisit toujours la demande"
+    ],
+    "blocks": "L4"
+  },
+  {
+    "id": "D-5",
+    "group": "catalogue",
     "title": "D’où viennent les articles des BOM préfaites ?",
     "context": "Une BOM préfaite liste des articles. Keystone tient déjà un référentiel d’articles (catalogue PLM, derniers prix d’achat).",
     "proposal": "Du référentiel d’articles de Keystone, lu par la vue keystone.pub_articles ; un article manquant se crée dans Keystone.",
-    "alts": ["Un référentiel d’articles propre à Modulus", "Mixte : articles de Keystone, et articles « génériques » propres à Modulus pour chiffrer avant conception"],
+    "alts": [
+      "Un référentiel d’articles propre à Modulus",
+      "Mixte : articles de Keystone, et articles « génériques » propres à Modulus pour chiffrer avant conception"
+    ],
     "blocks": "L2"
   },
   {
-    "id": "D-6", "group": "catalogue",
+    "id": "D-6",
+    "group": "catalogue",
     "title": "Quelles caractéristiques techniques par type de machine ?",
     "context": "Chaque machine standard porte des caractéristiques (capacité, encombrement, utilités…) qui servent au configurateur, aux règles entre options et au savoir-faire.",
     "proposal": "Une liste par type, fournie par l’ingénierie ; en attendant : capacité nominale et unité, encombrement (L × l × h), masse, puissance installée, air comprimé, eau.",
-    "alts": ["Liste unique pour tous les types"],
+    "alts": [
+      "Liste unique pour tous les types"
+    ],
     "blocks": "L2"
   },
   {
-    "id": "D-7", "group": "catalogue",
+    "id": "D-7",
+    "group": "catalogue",
     "title": "Le budget se calcule-t-il ou se saisit-il ?",
     "context": "Le budget d’une machine ou d’une option peut être calculé (BOM × derniers prix d’achat + heures standard × taux) ou saisi par poste (matière, sous-traitance, ingénierie, atelier, chantier, frais).",
     "proposal": "Les deux : Modulus propose le budget calculé, le chiffreur peut saisir par poste, l’écart entre les deux est montré.",
-    "alts": ["Saisie par poste seulement", "Calcul seulement"],
+    "alts": [
+      "Saisie par poste seulement",
+      "Calcul seulement"
+    ],
     "blocks": "L2"
   },
   {
-    "id": "D-4", "group": "catalogue",
+    "id": "D-4",
+    "group": "catalogue",
     "title": "Qui valide un prix de vente publié et une remise ?",
     "context": "Une grille de prix ou un prix de vente se publie après validation ; une remise sur une offre aussi, au-delà d’un seuil.",
     "proposal": "La direction commerciale valide les grilles et les prix ; une remise au-delà de 10 % est validée aussi par la direction générale.",
-    "alts": ["La direction commerciale seule, quel que soit le taux", "Seuil différent (préciser en note)"],
+    "alts": [
+      "La direction commerciale seule, quel que soit le taux",
+      "Seuil différent (préciser en note)"
+    ],
     "blocks": "L2"
   },
   {
-    "id": "D-14", "group": "catalogue",
+    "id": "D-14",
+    "group": "catalogue",
     "title": "Devises de vente",
     "context": "Les prix sont tenus en euros ; certaines affaires se vendent dans une autre devise.",
     "proposal": "Grilles en euros ; une offre peut être émise dans la devise du client au cours du jour, noté dans l’offre et figé avec elle.",
-    "alts": ["Grilles de prix par devise", "Euro seulement"],
+    "alts": [
+      "Grilles de prix par devise",
+      "Euro seulement"
+    ],
     "blocks": "L3"
   },
   {
-    "id": "D-2", "group": "affaires",
+    "id": "D-2",
+    "group": "affaires",
     "title": "Modulus tient-il un pipeline commercial ?",
     "context": "Le suivi des affaires peut aller du simple statut à un CRM complet (prévisions, relances, activités).",
     "proposal": "Oui, simple : statut, probabilité, montant pondéré, motifs de perte, taux de transformation.",
-    "alts": ["Non : pas de pipeline, seulement les affaires et les offres", "Un CRM complet (activités, relances, prévisions), plus tard"],
+    "alts": [
+      "Non : pas de pipeline, seulement les affaires et les offres",
+      "Un CRM complet (activités, relances, prévisions), plus tard"
+    ],
     "blocks": "L3"
   },
   {
-    "id": "D-8", "group": "affaires",
+    "id": "D-8",
+    "group": "affaires",
     "title": "Une revue d’offre (go / no-go) est-elle obligatoire avant envoi ?",
     "context": "La revue vérifie la marge, les options « jamais fait » ou « à éviter », le délai et la charge de l’ingénierie, puis trace la décision.",
     "proposal": "Obligatoire au-delà de 150 k€ ou dès qu’une option est « jamais fait » ou « à éviter » ; facultative sinon.",
-    "alts": ["Toujours obligatoire", "Jamais obligatoire (proposée seulement)", "Seuil différent (préciser en note)"],
+    "alts": [
+      "Toujours obligatoire",
+      "Jamais obligatoire (proposée seulement)",
+      "Seuil différent (préciser en note)"
+    ],
     "blocks": "L3"
   },
   {
-    "id": "D-13", "group": "affaires",
+    "id": "D-13",
+    "group": "affaires",
     "title": "Le client voit-il son offre en ligne ?",
     "context": "Keystone a retiré son portail client : les clients ne voient jamais les outils internes.",
     "proposal": "Non : l’offre est un PDF envoyé, déposé dans Codex ; pas de portail client.",
-    "alts": ["Un portail client en lecture seule, plus tard"],
+    "alts": [
+      "Un portail client en lecture seule, plus tard"
+    ],
     "blocks": "—"
   },
   {
-    "id": "D-9", "group": "affaires",
+    "id": "D-9",
+    "group": "affaires",
     "title": "Quand Keystone renvoie-t-il le coût réel d’un projet ?",
     "context": "Le retour du coût réel par poste, des écarts et du REX nourrit le savoir-faire.",
     "proposal": "À la clôture du projet, puis une mise à jour à la fin de la garantie.",
-    "alts": ["À chaque jalon du projet", "À la clôture seulement"],
+    "alts": [
+      "À chaque jalon du projet",
+      "À la clôture seulement"
+    ],
     "blocks": "L5"
   },
   {
-    "id": "D-10", "group": "cotation",
+    "id": "D-10",
+    "group": "cotation",
     "title": "Un questionnaire de cotation type par quoi ?",
     "context": "Quand une option n’est pas au catalogue, un questionnaire fait comprendre le besoin (produit, cadence, environnement, normes, interfaces, délai, pièces).",
     "proposal": "Un tronc commun pour toutes les demandes, complété par des questions par type de machine × catégorie d’option, tenues par l’ingénierie.",
-    "alts": ["Un seul questionnaire pour tout", "Un questionnaire par type de machine seulement"],
+    "alts": [
+      "Un seul questionnaire pour tout",
+      "Un questionnaire par type de machine seulement"
+    ],
     "blocks": "L4"
   },
   {
-    "id": "D-11", "group": "cotation",
+    "id": "D-11",
+    "group": "cotation",
     "title": "Délais cibles de réponse à une demande de cotation",
     "context": "Le délai de réponse est suivi, avec relance et échéance au chiffreur.",
     "proposal": "Indicatif : 5 jours ouvrés ; devis : 15 ; offre ferme : 30.",
-    "alts": ["Délais différents (préciser en note)"],
+    "alts": [
+      "Délais différents (préciser en note)"
+    ],
     "blocks": "L4"
   },
   {
-    "id": "D-12", "group": "savoir",
+    "id": "D-12",
+    "group": "savoir",
     "title": "Règles des niveaux de savoir-faire",
     "context": "Le niveau (maîtrisé, déjà fait, chiffré jamais vendu, vendu pas encore livré, jamais fait, à éviter) se calcule à partir des affaires, ventes et retours de projet.",
     "proposal": "Maîtrisé = au catalogue et livré au moins 3 fois avec un écart coût réel / budget ≤ 10 % ; à éviter = marqué avec motif, ou écart > 30 %, ou REX « difficulté majeure » ; une option spécifique vendue 2 fois est proposée pour entrer au catalogue.",
-    "alts": ["Seuils différents (préciser en note)"],
+    "alts": [
+      "Seuils différents (préciser en note)"
+    ],
     "blocks": "L6"
   },
   {
-    "id": "U-1", "group": "droits",
+    "id": "U-1",
+    "group": "droits",
     "title": "Rôles de Modulus",
     "context": "Les droits viennent de Clavis (rôles propres à Modulus, lus dans clavis.pub_acces) ; une personne peut cumuler plusieurs rôles.",
     "proposal": "Commercial, chiffreur, ingénierie (catalogue, BOM, règles), direction commerciale (validation des prix), lecture, administrateur.",
-    "alts": ["Ajouter un rôle « assistante commerciale » (saisie des affaires sans prix)", "Autre découpage (préciser en note)"],
+    "alts": [
+      "Ajouter un rôle « assistante commerciale » (saisie des affaires sans prix)",
+      "Autre découpage (préciser en note)"
+    ],
     "blocks": "L1"
   },
   {
-    "id": "U-2", "group": "droits",
+    "id": "U-2",
+    "group": "droits",
     "title": "Qui voit une affaire ?",
     "context": "Une affaire porte des prix et des informations client sensibles.",
     "proposal": "L’équipe de l’affaire (chargé d’affaires, chiffreur, ingénierie désignée), la direction commerciale et la direction générale ; les autres commerciaux ne voient que la liste (client, statut), sans les prix.",
-    "alts": ["Tout le service commercial voit tout", "Seulement l’équipe de l’affaire et la direction"],
+    "alts": [
+      "Tout le service commercial voit tout",
+      "Seulement l’équipe de l’affaire et la direction"
+    ],
     "blocks": "L3"
   },
   {
-    "id": "DATA-1", "group": "data", "kind": "data",
-    "title": "Liste des types de machines et des machines standard",
-    "context": "Pour amorcer le catalogue (le catalogue actuel de Keystone sera repris automatiquement) : types, machines standard, variantes, capacités, délais types.",
-    "placeholder": "Collez la liste ou indiquez où la trouver (fichier, outil, personne à contacter)",
+    "id": "DATA-0",
+    "group": "data",
+    "kind": "data",
+    "title": "Filiales du groupe et pays",
+    "context": "Liste des filiales et de leurs pays (à saisir de préférence dans le référentiel de Matrix, qui fait foi). Modèle : docs/donnees/00-filiales-pays.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
+    "blocks": "L1"
+  },
+  {
+    "id": "DATA-1",
+    "group": "data",
+    "kind": "data",
+    "title": "Types et machines standard",
+    "context": "Ce qui manque ou diffère du catalogue de Keystone (repris automatiquement). Modèle : docs/donnees/01-machines-standard.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
     "blocks": "L2"
   },
   {
-    "id": "DATA-2", "group": "data", "kind": "data",
-    "title": "Options courantes par machine et règles entre options",
-    "context": "Options proposées aujourd’hui (libellé, prix de vente indicatif, délai additionnel) et incompatibilités connues (A exclut B, C impose D).",
-    "placeholder": "Collez ou décrivez les options et les règles",
+    "id": "DATA-2",
+    "group": "data",
+    "kind": "data",
+    "title": "Caractéristiques techniques par type",
+    "context": "Liste de départ de D-6. Modèle : docs/donnees/02-caracteristiques-par-type.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
     "blocks": "L2"
   },
   {
-    "id": "DATA-3", "group": "data", "kind": "data",
-    "title": "BOM types et grilles de prix existantes",
-    "context": "Où sont aujourd’hui les BOM de référence et les grilles de prix (fichiers Excel, Sage, Keystone) et qui les tient.",
-    "placeholder": "Indiquez les sources et les personnes",
+    "id": "DATA-3",
+    "group": "data",
+    "kind": "data",
+    "title": "Options courantes",
+    "context": "Options, catégories, prix indicatif, délai. Modèle : docs/donnees/03-options.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
     "blocks": "L2"
   },
   {
-    "id": "DATA-4", "group": "data", "kind": "data",
-    "title": "Affaires passées à reprendre pour le savoir-faire",
-    "context": "Projets livrés dont on veut garder la trace (machine, options, spécifiques développés, coût réel) pour amorcer la carte du savoir-faire.",
-    "placeholder": "Liste des affaires ou source à reprendre",
+    "id": "DATA-4",
+    "group": "data",
+    "kind": "data",
+    "title": "Règles entre options",
+    "context": "Exclut, impose, obligatoire si, une parmi. Modèle : docs/donnees/04-regles-options.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
+    "blocks": "L2"
+  },
+  {
+    "id": "DATA-5",
+    "group": "data",
+    "kind": "data",
+    "title": "BOM préfaites",
+    "context": "Machines et options (options en delta), articles par code Keystone. Modèle : docs/donnees/05-bom-standard.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
+    "blocks": "L2"
+  },
+  {
+    "id": "DATA-6",
+    "group": "data",
+    "kind": "data",
+    "title": "Budgets par poste et taux horaires",
+    "context": "Modèle : docs/donnees/06-budgets-et-taux.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
+    "blocks": "L2"
+  },
+  {
+    "id": "DATA-7",
+    "group": "data",
+    "kind": "data",
+    "title": "Grilles de prix de vente",
+    "context": "Modèle : docs/donnees/07-grilles-de-prix.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
+    "blocks": "L2"
+  },
+  {
+    "id": "DATA-8",
+    "group": "data",
+    "kind": "data",
+    "title": "Clients et prospects",
+    "context": "Prospects et contacts commerciaux (les clients connus sont lus dans Keystone). Modèle : docs/donnees/08-clients-et-prospects.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
+    "blocks": "L3"
+  },
+  {
+    "id": "DATA-9",
+    "group": "data",
+    "kind": "data",
+    "title": "Affaires passées à reprendre",
+    "context": "Projets livrés des dernières années, avec leurs options spécifiques et leur coût réel. Modèle : docs/donnees/09-affaires-passees.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
     "blocks": "L6"
+  },
+  {
+    "id": "DATA-10",
+    "group": "data",
+    "kind": "data",
+    "title": "Questions de cotation",
+    "context": "Tronc commun et questions par type × catégorie. Modèle : docs/donnees/10-questions-cotation.csv. Détail : docs/DONNEES.md.",
+    "placeholder": "Indiquez où trouver la donnée (fichier, outil, personne) ou collez-la ici ; le fichier complet se dépose dans Codex",
+    "blocks": "L4"
   }
 ]
