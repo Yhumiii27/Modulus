@@ -30,3 +30,17 @@
 | D-13 | Le client voit-il une offre en ligne (portail) ? | Non : l'offre est un PDF envoyé (Keystone a retiré son portail client, D9-06) | Portail plus tard |
 | D-14 | Devises de vente | Euro ; autre devise au cours du jour noté dans l'offre | Grilles par devise |
 | D-15 | Qui voit le budget et la marge ? | Chiffreurs, direction commerciale, direction de portefeuille, direction générale ; pas les commerciaux | Aussi les commerciaux |
+| U-1 | Rôles de Modulus (lus dans Clavis, cumulables) | commercial, chiffreur, ingénierie, direction commerciale, lecture, administrateur | ajouter « assistante commerciale » |
+| U-2 | Qui voit une affaire ? | l'équipe de l'affaire, la direction commerciale et la direction générale ; les autres commerciaux voient la liste sans les prix | tout le service ; équipe et direction seulement |
+
+## 3. Données à fournir
+
+DATA-1 types et machines standard ; DATA-2 options courantes et règles entre options ; DATA-3 BOM types et grilles de prix
+existantes ; DATA-4 affaires passées à reprendre pour le savoir-faire.
+
+## 4. Questionnaire
+
+Les questions D-1 à D-15, U-1, U-2 et DATA-1 à DATA-4 sont dans le questionnaire « Décisions Modulus » (page publiée,
+réponses dans sa base, collection `answers`, un document par question : `choice` = default | altN | other | discuss,
+`note`). Source : `scripts/questionnaire/questions.json` ; page : `node scripts/questionnaire/build.mjs`. Les réponses sont
+relues avant chaque livraison et reportées ici.
