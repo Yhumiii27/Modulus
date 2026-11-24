@@ -11,4 +11,4 @@
 | **6 — Savoir-faire** | niveaux calculés, carte, fiche de preuves, propositions d'entrée au catalogue, alertes | D-12 |
 | **7 — Transition achevée** | Keystone et Arche ne lisent plus que Modulus pour le catalogue ; retrait de l'écran de saisie de Keystone | Keystone, Arche, Matrix |
 
-Chaque livraison : branche, PR fusionnée une fois la CI verte, page « reste à développer » tenue à jour.
+Chaque livraison : branche, PR fusionnée une fois la CI verte. Reste à faire : `reste-a-faire/modulus.json` dans Norma (page globale https://claude.ai/artifact/Rs7kooJdowShdYUqNS8jQf).

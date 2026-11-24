@@ -19,7 +19,7 @@ to do, have done once, have only quoted, never did, or should avoid).
 - **Owner's answers**: questionnaire "Décisions Modulus", https://claude.ai/artifact/DW6ZKnFFgCdUBvD5G5946t — read its
   database (ArtifactData, collection `answers`, one document per question id: `choice` = default | altN | other | discuss,
   `note`) before each delivery and apply the answers to `docs/DECISIONS.md`; keep `scripts/questionnaire/questions.json` in
-  step and rebuild the page with `node scripts/questionnaire/build.mjs`.
+  step and rebuild the page with `node norma/outils/questionnaire/build.mjs` (Norma's standard questionnaire, settings in `scripts/questionnaire/config.json`).
 - The machine catalogue and machine standards now live in Keystone (`machine_catalogue_entries`, `machine_types` and
   related tables, view `keystone.pub_catalogue_machines`, contract K-01; answers to CAPEX machine needs `need_answers`,
   contract K-02). They move to Modulus (owner, 24 Nov 2026) through the transition of `docs/spec/05-echanges.md` § 4.

@@ -42,5 +42,5 @@ existantes ; DATA-4 affaires passées à reprendre pour le savoir-faire.
 
 Les questions D-1 à D-15, U-1, U-2 et DATA-1 à DATA-4 sont dans le questionnaire « Décisions Modulus » (page publiée,
 réponses dans sa base, collection `answers`, un document par question : `choice` = default | altN | other | discuss,
-`note`). Source : `scripts/questionnaire/questions.json` ; page : `node scripts/questionnaire/build.mjs`. Les réponses sont
+`note`). Source : `scripts/questionnaire/questions.json` ; page : `node norma/outils/questionnaire/build.mjs` (modèle de Norma, réglages `scripts/questionnaire/config.json`). Les réponses sont
 relues avant chaque livraison et reportées ici.

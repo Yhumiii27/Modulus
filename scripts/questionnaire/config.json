@@ -1,0 +1,19 @@
+{
+  "titre": "Décisions Modulus",
+  "sousTitre": "Modulus · commercial et chiffrage · questionnaire du responsable produit",
+  "introduction": "Modulus sera l’outil du service commercial et chiffrage : catalogue des machines standard et de leurs options, BOM préfaites, prix (budget pour Keystone, vente pour Arche), affaires et offres, configurations vendues, cotation des options hors catalogue et carte du savoir-faire. Chaque question porte la proposition par défaut (★), appliquée tant qu’il n’y a pas d’autre réponse. Choisissez une réponse, ajoutez une note si besoin : tout est enregistré à mesure et relu par Claude avant chaque livraison. Le détail est dans le dépôt Modulus : docs/spec/ et docs/DECISIONS.md.",
+  "decideTitre": "Déjà décidé",
+  "decide": [
+    "P-1 · La partie « machines standard et catalogue » sort de Keystone pour un outil à part : Modulus.",
+    "P-2 · Modulus publie la liste des machines standard à Arche et à Keystone.",
+    "P-3 · À la création d’un CAPEX, la filiale choisit une machine et ses options ; une option absente du catalogue ouvre une demande de cotation avec un questionnaire type.",
+    "P-4 · Une machine standard, avec ou sans options, est liée à une BOM préfaite et à des prix : budget pour Keystone, vente pour Arche.",
+    "P-5 · Modulus garde la trace de ce qui est vendu dans chaque projet et des options développées, pour capitaliser sur ce que l’on sait ou ne sait pas faire.",
+    "P-6 · Charte Nocturne (Norma), thèmes sombre et clair ; règles communes de la suite (Norma)."
+  ],
+  "groupes": [
+    ["prio", "À traiter en priorité"], ["catalogue", "Catalogue, BOM et prix"], ["affaires", "Affaires, offres et ventes"],
+    ["cotation", "Cotation des options"], ["savoir", "Savoir-faire"], ["droits", "Utilisateurs et droits"], ["data", "Données à fournir"]
+  ],
+  "sortie": ".artifacts/decisions-modulus.html"
+}
