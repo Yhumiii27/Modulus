@@ -1,0 +1,2 @@
+client_code_keystone;raison_sociale;pays_iso2;type(filiale|site_minier|externe);filiale_intermediaire;contact_commercial;siret_ou_tva;remarque
+;Nom du client;ZA;site_minier;FIL-XX;Prénom Nom (fonction);;exemple à remplacer

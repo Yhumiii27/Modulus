@@ -1,0 +1,3 @@
+machine_ou_option_code;sous_ensemble;repere;article_code_keystone;designation;quantite;unite;delta(ajoute|retire|remplace);article_remplace
+EMP-40T;Châssis;01;ART-000123;Exemple d'article;2;u;;
+OPT-XX;Automate;12;ART-000456;Exemple d'article;1;u;ajoute;

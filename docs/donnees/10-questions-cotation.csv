@@ -1,0 +1,3 @@
+famille(tronc_commun|type×categorie);theme;question;type_reponse(texte|nombre|choix|oui_non|piece);unite_ou_choix;obligatoire
+tronc_commun;Besoin;Que doit faire l'option ?;texte;;oui
+EMP×automatisme;Interfaces;Quel protocole pour l'automate client ?;choix;Profinet|Modbus|Autre;non
