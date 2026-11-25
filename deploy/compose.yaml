@@ -1,0 +1,17 @@
+# Modulus on Coolify — a "Docker Compose" resource, base directory `/`, compose file `/deploy/compose.yaml`, domain on the
+# `site` service. Delivery 0: the clickable mockup (maquette/index.html) served by nginx until the application exists.
+#
+# HTTP basic authentication, as for Arche: Coolify attaches every Traefik middleware DEFINED in a service's labels to the
+# routers it generates for that service's domain. In Coolify: "Escape special characters in labels" OFF, and
+# MODULUS_BASIC_AUTH_USERS (`htpasswd -nbB <user> <password>`) created with "Interpolation: Literal".
+# Check: `curl -sI https://<domain>/` without credentials answers 401.
+services:
+  site:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    expose:
+      - "80"
+    labels:
+      - "traefik.http.middlewares.modulus-basic-auth.basicauth.users=${MODULUS_BASIC_AUTH_USERS:?MODULUS_BASIC_AUTH_USERS is required (htpasswd -nbB user password)}"
