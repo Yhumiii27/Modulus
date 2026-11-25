@@ -54,5 +54,8 @@ to do, have done once, have only quoted, never did, or should avoid).
   catalogue, the BOM templates, the price lists and the project feedback; they are frozen only into an offer or a sale.
 - Platform: copied from Clavis / Crucible as adapted (record the origin commit in `docs/SOCLE.md`); charte from
   `norma/charte` (import `@norma/charte/...`), never a local copy.
+- **Logo, Norma 2.3.0** (owner, 25 Nov 2026; `norma/charte/COQUE.md` § 8 bis): the brand of the sidebar and of the top bar is the
+  charter's `ToolLogo code="modulus"` (`@norma/charte/ds/ToolLogo`, 26 px, 20 px in the top bar), also on the pages outside the shell
+  (sign-in…); the favicon is `src/app/icon.svg`, a copy of `norma/charte/logos/modulus.svg` (checked by `src/app/icon.test.ts`).
 - Ports on the owner's Mac: **3800** (Modulus) and **3810** (tests).
 - Commit messages in English.
