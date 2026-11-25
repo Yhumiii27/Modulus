@@ -13,12 +13,27 @@ to do, have done once, have only quoted, never did, or should avoid).
 
 ## Where the project stands
 
-- **Delivery 0 (framing) is in progress** (24 Nov 2026, owner's request): `docs/spec/00`–`06`, `docs/DECISIONS.md`
-  (questions with a default answer), `docs/PLAN.md`, `docs/DEMANDES.md` (requests to Clavis, Matrix, Keystone, Arche).
-  Nothing is built until the owner has read the framing and answered or accepted the defaults.
-- **Mockup online** (25 Nov 2026, owner's request): the clickable mockup `maquette/index.html` (fictitious data) is served
-  at https://modulus.projectdirection.fr (Coolify resource « modulus », nginx, same basic authentication as Arche's site;
-  `deploy/README.md`) until delivery 1 replaces it.
+- **Delivery 0 (framing) is done** (24 Nov 2026): `docs/spec/00`–`06`, `docs/DECISIONS.md`, `docs/PLAN.md`, `docs/DEMANDES.md`
+  (requests to Clavis, Matrix, Keystone, Arche — drafts until the owner's « validé »), `docs/DONNEES.md`.
+- **Delivery 1 (platform and beta) is built** (25 Nov 2026, owner: « passer du stade de maquette au stade de beta »;
+  `docs/DELIVERY-1.md`, `docs/SOCLE.md`): platform from Vector (itself Clavis `main`), PostgreSQL only, schema `modulus`
+  (`src/server/db/schema/catalogue.ts`, `commerce.ts`; every column constrained); triggers of `drizzle/0001` keep a published
+  machine version, a published price list, a **sent offer** and a **sold configuration** frozen and the journals append-only;
+  pure rules in `src/domain/` (`configurator.ts`, `bom.ts`, `pricing.ts`, `offer.ts`, `review.ts`, `knowhow.ts`, `quotes.ts`,
+  `working-days.ts`, `deals.ts`, `settings.ts`, `rights.ts`); everything computed on read by `src/server/commerce/world.ts`
+  (`loadModulus`; pages through `src/server/dal/world.ts`), shared writes `src/server/commerce/core.ts` (send an offer, order,
+  amendment — also used by the demo seed); Server Functions `src/features/commerce/actions.ts`, side-panel forms `forms.tsx`;
+  every screen of the mockup in `src/app/(app)/`; reference queries of the publications `src/server/publications/definitions.ts`
+  (no `pub_` view in a migration); demo data set `MODULUS_SEED=demo` (`src/server/db/seed/demo.ts`, fictitious only).
+  The mockup `maquette/index.html` stays as the validated reference, no longer served; the app shows a discreet « Bêta » mark.
+- **Deployment** (`deploy/README.md`): one Coolify « Dockerfile » container behind Coolify's basic auth, `deploy/start.sh` with
+  `MODULUS_SINGLE_CONTAINER=on` (migration, worker, server on 3800), `HEALTHCHECK` on `/api/health`; shared server: database
+  `epc2i`, schema `modulus`, role `modulus_app` (still NOLOGIN until its password is set), host `epc2i-postgres`;
+  `deploy/compose.shared.yaml` for the direct install.
+- Roles (`src/config/roles.ts`, U-1 + D-4 + D-15): sales, estimator, engineering, sales_director, general_management,
+  portfolio_management, reader, admin — Clavis keys `Modulus.SalesDirector`… (request C-1). Budget and margin: `canSeeCosts`
+  (D-15); a deal's sheet and prices: its team and the directions (`dealAccess`, U-2).
+- Tests never drop a database (`src/test/db.ts` leaves its uniquely named database); never run `DROP DATABASE`.
 - **Owner's answers**: questionnaire "Décisions Modulus", https://claude.ai/artifact/DW6ZKnFFgCdUBvD5G5946t — read its
   database (ArtifactData, collection `answers`, one document per question id: `choice` = default | altN | other | discuss,
   `note`) before each delivery and apply the answers to `docs/DECISIONS.md`; keep `scripts/questionnaire/questions.json` in
@@ -29,6 +44,8 @@ to do, have done once, have only quoted, never did, or should avoid).
 
 ## Rules specific to Modulus
 
+- Next.js 16 (read `node_modules/next/dist/docs/` before writing code), Drizzle, PostgreSQL only, Vitest. Checks:
+  `npx next typegen && npm run typecheck && npm run lint && npm test && npm run norma:check`, `npm run build`, `npm run test:smoke`.
 - **Two prices, never mixed.** The cost budget (internal) and the sale price are separate columns, separate rights and
   separate publications: Arche and any subsidiary-facing view never read a cost or a margin.
 - **What was sold is frozen.** An offer version, once sent, and a configuration sold, once ordered, are immutable (database

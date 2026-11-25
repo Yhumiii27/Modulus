@@ -5,17 +5,22 @@ autorise la session à modifier ce dépôt) qu'après son « validé ».
 
 ## Clavis
 
-- **C-1** : ajouter l'application `modulus` (état « prévu » puis « ouvert ») et ses rôles propres
-  (`commercial`, `chiffreur`, `ingenierie`, `direction_commerciale`, `lecture`, `admin`), associés aux niveaux communs
-  dans `src/domain/app-roles.ts`, et aux profils (commercial, chargé d'affaires, bureau d'études, direction).
+- **C-1** : ajouter l'application `modulus` (état « prévu » puis « ouvert ») et ses rôles propres, clés lues par Modulus
+  (`src/config/roles.ts`, livraison 1) : `Modulus.Sales` (commercial), `Modulus.Estimator` (chiffreur), `Modulus.Engineering`
+  (ingénierie), `Modulus.SalesDirector` (direction commerciale), `Modulus.GeneralManagement` (direction générale, D-4),
+  `Modulus.PortfolioManagement` (direction de portefeuille, D-15), `Modulus.Reader` (lecture), `Modulus.Admin` (administrateur),
+  associés aux niveaux communs dans `src/domain/app-roles.ts`, et aux profils (commercial, chargé d'affaires, bureau d'études,
+  direction).
 
 ## Matrix
 
 - **M-1** : rôle `modulus_app` et schéma `modulus` dans le socle (`init/01`–`03`, `partage/90-droits.sql`, registre des
-  outils, sauvegarde) ; liens de lecture de la spec 05 § 2.
+  outils, sauvegarde) ; liens de lecture de la spec 05 § 2. État au 25 nov. 2026 : le rôle et le schéma existent, le rôle reste
+  `NOLOGIN` tant que son mot de passe n'est pas posé sur la ressource `epc2i-postgres` (préalable du déploiement de la bêta).
 - **M-2** : publications `modulus.pub_catalogue_machines` (K-01 v2), `pub_catalogue_options`, `pub_cotations` (K-02
   repris), `pub_budgets_configurations` (lecteur `keystone_app` seul), `pub_configurations_vendues`, d'après les requêtes de
-  référence de Modulus (livraisons 2, 4, 5).
+  référence de Modulus (livraisons 2, 4, 5). Les cinq requêtes sont prêtes et testées depuis la livraison 1
+  (`src/server/publications/definitions.ts`).
 
 ## Keystone
 

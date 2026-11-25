@@ -1,0 +1,111 @@
+# Modulus on Coolify on the SHARED EPC2I PostgreSQL server (decision M-01) — a "Docker Compose" resource, base directory `/`,
+# compose file `/deploy/compose.shared.yaml` (same shape as Arche's). Runbook in French: docs/EXPLOITATION.md § 4. The
+# standalone kit (its own PostgreSQL) stays deploy/compose.yaml.
+#
+#   (no db)  the database is Matrix's server (resource epc2i-postgres, repository Yhumiii27/Matrix, infra/postgres/): role
+#            modulus_app and schema `modulus` exist there; MODULUS_APP_PASSWORD is the value set on THAT resource (without it
+#            the role is NOLOGIN: Matrix's socle gives it the password once the variable is set and 01-base-et-roles.sql replayed)
+#   migrate  one-shot `npm run db:migrate` before every start (migrations, then the seed of an EMPTY schema: MODULUS_SEED must
+#            be set — demo for the beta, production for reference data only); left out of Coolify's health status
+#   app      the web server (port 3800, behind Coolify's proxy and TLS); starts once the migration has succeeded. Its data
+#            folder /data (MODULUS_DATA_DIR) is the named volume modulus-data
+#   worker   `npm run worker`: backups of the schema into the modulus-backups volume, the outbox to Codex (simulated),
+#            daily declaration to Matrix
+#
+# Network: every service joins the external Docker network `coolify` (EPC2I_DOCKER_NETWORK), where Matrix's server answers
+# under the fixed alias `epc2i-postgres` (EPC2I_PG_HOST). Leave the resource's "Predefined network" option unconnected.
+#
+# HTTP basic authentication (mandatory while MODULUS_AUTH=demo: "View as" any role, the IT administrator included). Coolify
+# v4.4.x has no basic-auth setting for Docker Compose resources, but it attaches every Traefik middleware DEFINED in a
+# service's labels to the routers it generates for that service's domain. In Coolify: (1) "Escape special characters in
+# labels" OFF, (2) MODULUS_BASIC_AUTH_USERS (`htpasswd -nbB <user> <password>`) created with "Interpolation: Literal".
+# Check: `curl -sI https://<domain>/` without credentials answers 401. Fail-closed: left escaped, every request is refused.
+#
+# The key `exclude_from_hc` is Coolify's: remove it to run this file with plain `docker compose`, from the repository root
+# with `--project-directory .` (local test: docker network create coolify, then Matrix's server on that network with the
+# alias epc2i-postgres).
+
+x-modulus-env: &modulus-env
+  NODE_ENV: production
+  DATABASE_URL: postgresql://modulus_app:${MODULUS_APP_PASSWORD:?MODULUS_APP_PASSWORD is required (the value set on the epc2i-postgres resource)}@${EPC2I_PG_HOST:-epc2i-postgres}:5432/epc2i
+  DATABASE_POOL_MAX: ${DATABASE_POOL_MAX:-}
+  MODULUS_SEED: ${MODULUS_SEED:?MODULUS_SEED is required (demo or production)}
+  MODULUS_AUTH: ${MODULUS_AUTH:-}
+  MODULUS_SESSION_SECRET: ${MODULUS_SESSION_SECRET:-}
+  MODULUS_SESSION_HOURS: ${MODULUS_SESSION_HOURS:-}
+  MODULUS_CLOCK: ${MODULUS_CLOCK:-}
+  MODULUS_ACCESS_FROM_CLAVIS: ${MODULUS_ACCESS_FROM_CLAVIS:-}
+  ENTRA_ISSUER: ${ENTRA_ISSUER:-}
+  ENTRA_TENANT_ID: ${ENTRA_TENANT_ID:-}
+  ENTRA_CLIENT_ID: ${ENTRA_CLIENT_ID:-}
+  ENTRA_CLIENT_SECRET: ${ENTRA_CLIENT_SECRET:-}
+  ENTRA_REDIRECT_URI: ${ENTRA_REDIRECT_URI:-}
+  ENTRA_POST_LOGOUT_REDIRECT_URI: ${ENTRA_POST_LOGOUT_REDIRECT_URI:-}
+  NEXT_PUBLIC_KEYSTONE_URL: ${NEXT_PUBLIC_KEYSTONE_URL:-}
+  NEXT_PUBLIC_CODEX_URL: ${NEXT_PUBLIC_CODEX_URL:-}
+  NEXT_PUBLIC_VIGIE_URL: ${NEXT_PUBLIC_VIGIE_URL:-}
+  LOG_LEVEL: ${LOG_LEVEL:-}
+  MATRIX_URL: ${MATRIX_URL:-}
+  MATRIX_TOKEN: ${MATRIX_TOKEN:-}
+  MODULUS_BACKUP_EVERY_MIN: ${MODULUS_BACKUP_EVERY_MIN:-}
+  MODULUS_BACKUP_RETENTION_DAYS: ${MODULUS_BACKUP_RETENTION_DAYS:-}
+
+services:
+  migrate:
+    image: modulus:local
+    pull_policy: never
+    command: ["npm", "run", "db:migrate"]
+    environment: *modulus-env
+    networks: [default, partage]
+    restart: "no"
+    exclude_from_hc: true
+
+  app:
+    image: modulus:local
+    build:
+      # Relative to the PROJECT directory: Coolify runs `docker compose --project-directory <clone>/<base directory>`, so
+      # with the base directory `/` the context is the repository root (locally: --project-directory . from the root).
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_KEYSTONE_URL: ${NEXT_PUBLIC_KEYSTONE_URL:-}
+        NEXT_PUBLIC_CODEX_URL: ${NEXT_PUBLIC_CODEX_URL:-}
+        NEXT_PUBLIC_VIGIE_URL: ${NEXT_PUBLIC_VIGIE_URL:-}
+    restart: unless-stopped
+    environment: *modulus-env
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks: [default, partage]
+    expose:
+      - "3800"
+    volumes:
+      - modulus-data:/data
+    labels:
+      - "traefik.http.middlewares.modulus-basic-auth.basicauth.users=${MODULUS_BASIC_AUTH_USERS:?MODULUS_BASIC_AUTH_USERS is required (htpasswd -nbB user password)}"
+
+  worker:
+    image: modulus:local
+    pull_policy: never
+    command: ["npm", "run", "worker"]
+    environment:
+      <<: *modulus-env
+      MODULUS_BACKUP_DIR: /backups
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks: [default, partage]
+    restart: unless-stopped
+    volumes:
+      - modulus-backups:/backups
+    exclude_from_hc: true
+
+volumes:
+  modulus-data:
+  modulus-backups:
+
+networks:
+  # Docker network of the tools: "coolify" in Coolify; locally, create it once (docker network create coolify).
+  partage:
+    name: ${EPC2I_DOCKER_NETWORK:-coolify}
+    external: true

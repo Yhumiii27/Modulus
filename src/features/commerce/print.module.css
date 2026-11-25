@@ -1,0 +1,7 @@
+.page { max-width: 900px; margin: 0 auto; padding: var(--space-8) var(--space-6); display: flex; flex-direction: column; gap: var(--space-6); background: var(--color-bg); color: var(--color-text); }
+.head { display: flex; justify-content: space-between; gap: var(--space-6); border-bottom: 1px solid var(--color-divider); padding-bottom: var(--space-4); }
+.title { font-size: var(--text-title); margin: 0; }
+.muted { color: var(--color-neutral-400); font-size: var(--text-small); }
+.box { min-height: 48px; border-bottom: 1px dotted var(--color-neutral-500); }
+.sum td { font-weight: 600; }
+@media print { .noprint { display: none; } }
