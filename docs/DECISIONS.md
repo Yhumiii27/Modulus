@@ -30,7 +30,7 @@
 | D-13 | proposition retenue | pas de portail client, offre en PDF |
 | D-14 | proposition retenue | grilles en euros, autre devise au cours du jour figé dans l'offre |
 | D-15 | proposition retenue | budget et marge : chiffreurs, direction commerciale, direction de portefeuille, direction générale |
-| U-1 | proposition retenue | rôles commercial, chiffreur, ingénierie, direction commerciale, lecture, administrateur |
+| U-1 | proposition retenue | rôles commercial, chiffreur, ingénierie, direction commerciale, lecture, administrateur ; la livraison 1 y ajoute **direction générale** et **direction de portefeuille**, que nomment D-4 (validation d'une remise au-delà du seuil) et D-15 (qui voit le budget) |
 | U-2 | proposition retenue | affaire visible de son équipe et des directions ; les autres commerciaux voient la liste sans les prix |
 
 ## 3. Modèle d'affaires du groupe (réponse D-3)
@@ -51,6 +51,10 @@ intermédiaire** ; seul le cas 1 vient d'un CAPEX d'Arche. Pour les cas 2 et 3, 
 c'est le commercial (ou la filiale intermédiaire) qui saisit le besoin et la demande de cotation dans Modulus (D-17).
 
 ## 4. Questions de suivi (après les réponses du 24 novembre)
+
+Relu le 25 novembre 2026 avant la livraison 1 : aucune réponse à D-16 ni à D-17 dans le questionnaire ; leur **réponse par défaut
+est appliquée** (livraison 1, `docs/DELIVERY-1.md` § 2) jusqu'à la réponse du propriétaire. Les réponses D-1 à D-15, U-1 et U-2 sont
+inchangées.
 
 | Id | Question | Réponse par défaut | Autres choix |
 | --- | --- | --- | --- |

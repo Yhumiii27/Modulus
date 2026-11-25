@@ -1,11 +1,58 @@
-# Modulus — delivery 0: the clickable mockup (maquette/index.html, fictitious data only) served as a static site until the
-# application of delivery 1 replaces it. One self-contained HTML file: no external request (its own CSP forbids them).
-# Coolify: deploy/compose.yaml (basic authentication by a Traefik label, like Arche). Port 80.
-FROM nginx:1.27.5-alpine
+# Modulus — one image for the web server, the deploy-time migration and the job worker (derived from Clavis's, itself from
+# Keystone's R-003).
+#   start      : the default command, deploy/start.sh — the web server (next start on port 3800); with MODULUS_SINGLE_CONTAINER=on
+#                (a Coolify "Dockerfile" resource behind Coolify's HTTP basic auth) the migration, then the worker, then the server
+#   migration  : npm run db:migrate   (before the new version starts; MODULUS_SEED explicit on an empty schema)
+#   job worker : npm run worker       (backups when MODULUS_BACKUP_DIR is set, outbox to Codex, daily declaration to Matrix)
+#   backups    : npm run backup / npm run restore -- <file> --yes (pg_dump / pg_restore 16 are installed below)
+# Modulus runs on PostgreSQL only: DATABASE_URL is a runtime variable (the shared EPC2I server, schema `modulus`, role modulus_app).
+# Coolify: this Dockerfile (one container, MODULUS_SINGLE_CONTAINER=on) or deploy/compose.shared.yaml (the shared EPC2I server).
+FROM node:22-bookworm-slim
 
-RUN rm -f /etc/nginx/conf.d/default.conf
-COPY deploy/nginx.conf /etc/nginx/conf.d/modulus.conf
-COPY maquette/ /usr/share/nginx/html/
+# PostgreSQL 16 client tools for the backups (Debian bookworm ships 15, which cannot dump a 16 server); curl stays: Coolify's
+# own health check (enabled in its UI) needs curl or wget in the image.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends ca-certificates curl tzdata \
+ && install -d /usr/share/postgresql-common/pgdg \
+ && curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+ && echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends postgresql-client-16 \
+ && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 80
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 CMD wget -q -O /dev/null http://127.0.0.1/healthz || exit 1
+WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    NPM_CONFIG_UPDATE_NOTIFIER=false \
+    NPM_CONFIG_FUND=false
+
+COPY package.json package-lock.json ./
+# Development dependencies are kept on purpose: tsx runs db:migrate, the worker, backup and restore.
+RUN npm ci --no-audit
+
+COPY . .
+
+# Public URLs of the sibling apps, inlined in the browser bundles by `next build`: the ONLY build arguments (Coolify:
+# variables marked "Available at build time"). Left empty they are unset, so the links keep their localhost defaults.
+ARG NEXT_PUBLIC_KEYSTONE_URL
+ARG NEXT_PUBLIC_CODEX_URL
+ARG NEXT_PUBLIC_VIGIE_URL
+RUN if [ -z "$NEXT_PUBLIC_KEYSTONE_URL" ]; then unset NEXT_PUBLIC_KEYSTONE_URL; fi; \
+    if [ -z "$NEXT_PUBLIC_CODEX_URL" ]; then unset NEXT_PUBLIC_CODEX_URL; fi; \
+    if [ -z "$NEXT_PUBLIC_VIGIE_URL" ]; then unset NEXT_PUBLIC_VIGIE_URL; fi; \
+    npm run build
+
+ENV NODE_ENV=production \
+    MODULUS_DATA_DIR=/data \
+    TZ=Europe/Paris \
+    LOG_FORMAT=json \
+    PORT=3800 \
+    HOSTNAME=0.0.0.0
+
+RUN mkdir -p /data /backups && chown node:node /data /backups && chown -R node:node /app/.next
+USER node
+
+EXPOSE 3800
+# GET /api/health: 200 when the database answers and has no pending migration.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
+  CMD ["node", "-e", "fetch('http://127.0.0.1:3800/api/health').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+CMD ["sh", "deploy/start.sh"]
