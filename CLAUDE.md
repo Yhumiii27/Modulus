@@ -16,6 +16,9 @@ to do, have done once, have only quoted, never did, or should avoid).
 - **Delivery 0 (framing) is in progress** (24 Nov 2026, owner's request): `docs/spec/00`–`06`, `docs/DECISIONS.md`
   (questions with a default answer), `docs/PLAN.md`, `docs/DEMANDES.md` (requests to Clavis, Matrix, Keystone, Arche).
   Nothing is built until the owner has read the framing and answered or accepted the defaults.
+- **Mockup online** (25 Nov 2026, owner's request): the clickable mockup `maquette/index.html` (fictitious data) is served
+  at https://modulus.projectdirection.fr (Coolify resource « modulus », nginx, same basic authentication as Arche's site;
+  `deploy/README.md`) until delivery 1 replaces it.
 - **Owner's answers**: questionnaire "Décisions Modulus", https://claude.ai/artifact/DW6ZKnFFgCdUBvD5G5946t — read its
   database (ArtifactData, collection `answers`, one document per question id: `choice` = default | altN | other | discuss,
   `note`) before each delivery and apply the answers to `docs/DECISIONS.md`; keep `scripts/questionnaire/questions.json` in
