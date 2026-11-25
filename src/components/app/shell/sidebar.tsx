@@ -10,13 +10,14 @@ import { cx } from '@norma/charte/ds/cx';
 import { Tag } from '@norma/charte/ds/Tag';
 import { NavEntry, NavList, NavSection, NavSections, PageSearch, Sidebar as CoqueSidebar, type PageHit } from '@norma/charte/ds/Sidebar';
 import { ROLE_LABEL, type RoleKey } from '@/config/roles';
-import { BRAND_ICON, SCREEN_ICONS } from '@/config/screen-icons';
+import { SCREEN_ICONS } from '@/config/screen-icons';
 import type { ScreenId } from '@/config/screens';
 import { AUTH_PATHS } from '@/domain/auth';
 import { useI18n } from '@/i18n/client';
 import { setViewAs } from '@/server/actions/preferences';
 import { buildNav, type NavEntry as NavEntryModel } from './nav-model';
 import styles from './sidebar.module.css';
+import { ToolLogo } from '@norma/charte/ds/ToolLogo';
 
 export interface SidebarPersona {
   role: RoleKey;
@@ -92,7 +93,7 @@ export function Sidebar({ role, roles, personas, account, counts, folded: initia
   return (
     <CoqueSidebar
       name="Modulus"
-      icon={BRAND_ICON}
+      logo={<ToolLogo code="modulus" />}
       footer={
         <>
           {/* Discreet beta mark (delivery 1): the charter's Tag, tokens only. */}
