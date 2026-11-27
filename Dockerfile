@@ -5,8 +5,8 @@
 #   migration  : npm run db:migrate   (before the new version starts; MODULUS_SEED explicit on an empty schema)
 #   job worker : npm run worker       (backups when MODULUS_BACKUP_DIR is set, outbox to Codex, daily declaration to Matrix)
 #   backups    : npm run backup / npm run restore -- <file> --yes (pg_dump / pg_restore 16 are installed below)
-# Modulus runs on PostgreSQL only: DATABASE_URL is a runtime variable (the shared EPC2I server, schema `modulus`, role modulus_app).
-# Coolify: this Dockerfile (one container, MODULUS_SINGLE_CONTAINER=on) or deploy/compose.shared.yaml (the shared EPC2I server).
+# Modulus runs on PostgreSQL only: DATABASE_URL is a runtime variable (the shared server of the Atrium suite, schema `modulus`, role modulus_app).
+# Coolify: this Dockerfile (one container, MODULUS_SINGLE_CONTAINER=on) or deploy/compose.shared.yaml (the shared server).
 FROM node:22-bookworm-slim
 
 # PostgreSQL 16 client tools for the backups (Debian bookworm ships 15, which cannot dump a 16 server); curl stays: Coolify's

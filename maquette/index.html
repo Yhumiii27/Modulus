@@ -1011,7 +1011,7 @@ function renderSidebar(active) {
     nav += items.map((it) => `<a class="entry ${it.id === active ? 'on' : ''}" href="${it.href}" ${it.id === active ? 'aria-current="page"' : ''}>${I(it.icon, 16)}<span class="lbl">${it.label}</span>${it.badge ? `<span class="nbadge">${it.badge()}</span>` : ''}</a>`).join('');
   }
   return `
-    <div class="brand"><span class="logo">${I('cube', 15)}</span><span class="wordmark">Modulus</span><span class="brand-sub">EPC2I</span></div>
+    <div class="brand"><span class="logo">${I('cube', 15)}</span><span class="wordmark">Modulus</span><span class="brand-sub">Atrium</span></div>
     <div class="nsearch">${I('magnifying-glass', 14)}<input id="nav-q" class="input" placeholder="Rechercher une page" aria-label="Rechercher une page" value="${q}"><span class="kbd">⌘K</span></div>
     <nav class="navlist" aria-label="Menu">${nav || '<div class="muted small" style="padding:6px 8px">Aucune page</div>'}</nav>
     <div class="viewas">
@@ -1410,7 +1410,7 @@ function vCotation(id) {
     </div>`;
   } else {
     body = card('Fil de la demande', `<div class="thread">
-      ${[['ML', 'Marc Lenoir', '10 nov. 2026', 'Qualifiée faisable. Question au demandeur : l’additif est-il fourni par la filiale ou par EPC2i ?'], ['SV', 'Filiale Exemple Nord (via Arche)', '12 nov. 2026', 'Fourni par la filiale, livré en IBC de 1 m³.'], ['CA', 'Camille Arnaud', '21 nov. 2026', 'Chiffrage en cours, réponse prévue le 24 nov. (classe devis).']].map(([i, w, d, t]) => `<div class="msg"><span class="avatar">${i === 'SV' ? 'FN' : i}</span><div class="msg-b"><div class="msg-h">${w} · ${d}</div>${t}</div></div>`).join('')}
+      ${[['ML', 'Marc Lenoir', '10 nov. 2026', 'Qualifiée faisable. Question au demandeur : l’additif est-il fourni par la filiale ou par le groupe ?'], ['SV', 'Filiale Exemple Nord (via Arche)', '12 nov. 2026', 'Fourni par la filiale, livré en IBC de 1 m³.'], ['CA', 'Camille Arnaud', '21 nov. 2026', 'Chiffrage en cours, réponse prévue le 24 nov. (classe devis).']].map(([i, w, d, t]) => `<div class="msg"><span class="avatar">${i === 'SV' ? 'FN' : i}</span><div class="msg-b"><div class="msg-h">${w} · ${d}</div>${t}</div></div>`).join('')}
       <div class="field"><label for="fil-msg">Message</label><textarea id="fil-msg" class="input" placeholder="Question de retour au demandeur…"></textarea></div>
       <div>${btn('Envoyer', { icon: 'paper-plane-tilt', toast: 'Message ajouté au fil — maquette' })}</div></div>`, { sub: 'Questions de retour au demandeur ; Arche lit la réponse publiée.' });
   }

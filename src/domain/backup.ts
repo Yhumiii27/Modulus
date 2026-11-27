@@ -1,4 +1,4 @@
-// Backups of the `modulus` schema (pg_dump, custom format): file names and retention. Pure. On the shared EPC2I server the
+// Backups of the `modulus` schema (pg_dump, custom format): file names and retention. Pure. On the shared server the
 // nightly backup of Matrix also covers the schema once it lists Modulus (docs/DEMANDES-MATRIX.md M-7); these backups serve the
 // Coolify kit's own PostgreSQL and on-demand copies before an upgrade.
 

@@ -1,5 +1,5 @@
 // npm run db:local — creates Modulus's database on a developer's PostgreSQL server: database `modulus_dev` (MODULUS_LOCAL_DATABASE),
-// role modulus_app (password MODULUS_LOCAL_PASSWORD, default "modulus-dev") and schema `modulus`, the layout of the shared EPC2I
+// role modulus_app (password MODULUS_LOCAL_PASSWORD, default "modulus-dev") and schema `modulus`, the layout of the shared Atrium
 // server (Matrix). Connects with MODULUS_ADMIN_URL (a superuser; default postgres://postgres:postgres@127.0.0.1:5432/postgres)
 // and prints the DATABASE_URL to put in .env.local. Then: npm run db:migrate. Never run it against the shared server: there,
 // Matrix's base layer creates the role and the schema.
