@@ -1,8 +1,7 @@
-# Modulus on Coolify on the SHARED EPC2I PostgreSQL server (decision M-01) — a "Docker Compose" resource, base directory `/`,
-# compose file `/deploy/compose.shared.yaml` (same shape as Arche's). Runbook in French: docs/EXPLOITATION.md § 4. The
-# standalone kit (its own PostgreSQL) stays deploy/compose.yaml.
+# Modulus on Coolify on the SHARED PostgreSQL server of the Atrium suite (decision M-01) — a "Docker Compose" resource, base
+# directory `/`, compose file `/deploy/compose.shared.yaml` (same shape as Arche's). Runbook in French: deploy/README.md.
 #
-#   (no db)  the database is Matrix's server (resource epc2i-postgres, repository Yhumiii27/Matrix, infra/postgres/): role
+#   (no db)  the database is Matrix's server (its PostgreSQL resource, repository Yhumiii27/Matrix, infra/postgres/): role
 #            modulus_app and schema `modulus` exist there; MODULUS_APP_PASSWORD is the value set on THAT resource (without it
 #            the role is NOLOGIN: Matrix's socle gives it the password once the variable is set and 01-base-et-roles.sql replayed)
 #   migrate  one-shot `npm run db:migrate` before every start (migrations, then the seed of an EMPTY schema: MODULUS_SEED must
@@ -12,8 +11,14 @@
 #   worker   `npm run worker`: backups of the schema into the modulus-backups volume, the outbox to Codex (simulated),
 #            daily declaration to Matrix
 #
-# Network: every service joins the external Docker network `coolify` (EPC2I_DOCKER_NETWORK), where Matrix's server answers
-# under the fixed alias `epc2i-postgres` (EPC2I_PG_HOST). Leave the resource's "Predefined network" option unconnected.
+# Network: every service joins the external Docker network `coolify` (ATRIUM_DOCKER_NETWORK), where Matrix's server answers
+# under its fixed alias (ATRIUM_PG_HOST). Leave the resource's "Predefined network" option unconnected.
+#
+# Server names (Norma 3.0): the shared server is renamed by Matrix in one separate operation (database and host alias take the
+# suite's name `atrium`, `atrium-postgres`). Until then the defaults below keep today's names; once Matrix announces the
+# operation done, set ATRIUM_PG_DB=atrium and ATRIUM_PG_HOST=atrium-postgres on the resource and redeploy (nothing else
+# changes). The old variables EPC2I_PG_HOST, EPC2I_PG_DB and EPC2I_DOCKER_NETWORK are still read when the new ones are unset
+# (transition only).
 #
 # HTTP basic authentication (mandatory while MODULUS_AUTH=demo: "View as" any role, the IT administrator included). Coolify
 # v4.4.x has no basic-auth setting for Docker Compose resources, but it attaches every Traefik middleware DEFINED in a
@@ -23,11 +28,12 @@
 #
 # The key `exclude_from_hc` is Coolify's: remove it to run this file with plain `docker compose`, from the repository root
 # with `--project-directory .` (local test: docker network create coolify, then Matrix's server on that network with the
-# alias epc2i-postgres).
+# alias of ATRIUM_PG_HOST).
 
 x-modulus-env: &modulus-env
   NODE_ENV: production
-  DATABASE_URL: postgresql://modulus_app:${MODULUS_APP_PASSWORD:?MODULUS_APP_PASSWORD is required (the value set on the epc2i-postgres resource)}@${EPC2I_PG_HOST:-epc2i-postgres}:5432/epc2i
+  # Host and database: today's names by default (before Matrix's rename), switched by ATRIUM_PG_HOST / ATRIUM_PG_DB.
+  DATABASE_URL: postgresql://modulus_app:${MODULUS_APP_PASSWORD:?MODULUS_APP_PASSWORD is required (the value set on the shared server's resource)}@${ATRIUM_PG_HOST:-${EPC2I_PG_HOST:-epc2i-postgres}}:${ATRIUM_PG_PORT:-5432}/${ATRIUM_PG_DB:-${EPC2I_PG_DB:-epc2i}}
   DATABASE_POOL_MAX: ${DATABASE_POOL_MAX:-}
   MODULUS_SEED: ${MODULUS_SEED:?MODULUS_SEED is required (demo or production)}
   MODULUS_AUTH: ${MODULUS_AUTH:-}
@@ -107,5 +113,5 @@ volumes:
 networks:
   # Docker network of the tools: "coolify" in Coolify; locally, create it once (docker network create coolify).
   partage:
-    name: ${EPC2I_DOCKER_NETWORK:-coolify}
+    name: ${ATRIUM_DOCKER_NETWORK:-${EPC2I_DOCKER_NETWORK:-coolify}}
     external: true

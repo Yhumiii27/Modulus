@@ -27,17 +27,19 @@ to do, have done once, have only quoted, never did, or should avoid).
   (no `pub_` view in a migration); demo data set `MODULUS_SEED=demo` (`src/server/db/seed/demo.ts`, fictitious only).
   The mockup `maquette/index.html` stays as the validated reference, no longer served; the app shows a discreet « Bêta » mark.
 - **Deployment** (`deploy/README.md`): one Coolify « Dockerfile » container behind Coolify's basic auth, `deploy/start.sh` with
-  `MODULUS_SINGLE_CONTAINER=on` (migration, worker, server on 3800), `HEALTHCHECK` on `/api/health`; shared server: database
-  `epc2i`, schema `modulus`, role `modulus_app` (still NOLOGIN until its password is set), host `epc2i-postgres`;
-  `deploy/compose.shared.yaml` for the direct install.
+  `MODULUS_SINGLE_CONTAINER=on` (migration, worker, server on 3800), `HEALTHCHECK` on `/api/health`; shared server of the Atrium suite:
+  schema `modulus`, role `modulus_app` (still NOLOGIN until its password is set); the database and the host are never
+  hard-coded (`DATABASE_URL`; `deploy/compose.shared.yaml` builds it from `ATRIUM_PG_HOST` / `ATRIUM_PG_DB`, defaults = the
+  server's current names until Matrix renames it to `atrium-postgres` / `atrium`, `deploy/README.md`) — also for the direct install.
 - Roles (`src/config/roles.ts`, U-1 + D-4 + D-15): sales, estimator, engineering, sales_director, general_management,
   portfolio_management, reader, admin — Clavis keys `Modulus.SalesDirector`… (request C-1). Budget and margin: `canSeeCosts`
   (D-15); a deal's sheet and prices: its team and the directions (`dealAccess`, U-2).
 - Tests never drop a database (`src/test/db.ts` leaves its uniquely named database); never run `DROP DATABASE`.
-- **Owner's answers**: questionnaire "Décisions Modulus", https://claude.ai/artifact/DW6ZKnFFgCdUBvD5G5946t — read its
-  database (ArtifactData, collection `answers`, one document per question id: `choice` = default | altN | other | discuss,
-  `note`) before each delivery and apply the answers to `docs/DECISIONS.md`; keep `scripts/questionnaire/questions.json` in
-  step and rebuild the page with `node norma/outils/questionnaire/build.mjs` (Norma's standard questionnaire, settings in `scripts/questionnaire/config.json`).
+- **Owner's answers** (Norma 3.0, `norma/REGLES.md` § 3): Modulus's questions live in Norma's `decisions/modulus.json`, shown
+  on the single page « Suivi Atrium » https://claude.ai/artifact/Rs7kooJdowShdYUqNS8jQf; read the answers there (its database,
+  collection `answers`, one document per question id) before each delivery and apply them to `docs/DECISIONS.md`. A new
+  question for the owner is added to `decisions/modulus.json` in Norma. The former page "Décisions Modulus"
+  (https://claude.ai/artifact/DW6ZKnFFgCdUBvD5G5946t) and `scripts/questionnaire/` are retired; its answers are taken over.
 - The machine catalogue and machine standards now live in Keystone (`machine_catalogue_entries`, `machine_types` and
   related tables, view `keystone.pub_catalogue_machines`, contract K-01; answers to CAPEX machine needs `need_answers`,
   contract K-02). They move to Modulus (owner, 24 Nov 2026) through the transition of `docs/spec/05-echanges.md` § 4.
@@ -57,5 +59,8 @@ to do, have done once, have only quoted, never did, or should avoid).
 - **Logo, Norma 2.3.0** (owner, 25 Nov 2026; `norma/charte/COQUE.md` § 8 bis): the brand of the sidebar and of the top bar is the
   charter's `ToolLogo code="modulus"` (`@norma/charte/ds/ToolLogo`, 26 px, 20 px in the top bar), also on the pages outside the shell
   (sign-in…); the favicon is `src/app/icon.svg`, a copy of `norma/charte/logos/modulus.svg` (checked by `src/app/icon.test.ts`).
+- **Atrium suite, Norma 3.1.0** (owner, 27 Nov 2026): the suite is called Atrium and no file names the former suite or the
+  company (« the group », « the company »); the display cookie is `atrium-theme`, read by `getTheme` through `themeFromCookies`
+  (the former name read as a fallback until Norma 4.0, only the new one written by the charter's toggle).
 - Ports on the owner's Mac: **3800** (Modulus) and **3810** (tests).
 - Commit messages in English.

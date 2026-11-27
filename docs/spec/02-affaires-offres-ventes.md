@@ -4,7 +4,7 @@
 
 - **Cas de vente** (réponse D-3, `docs/DECISIONS.md` § 3) : 1 = la filiale achète et exploite (vient d'un CAPEX d'Arche) ;
   2 = le site minier achète, la filiale sert d'intermédiaire (filiale intermédiaire portée par l'affaire) ; 3 = client direct
-  d'EPC2i. Seul le cas 1 passe par Arche ; dans les cas 2 et 3, le client n'a accès à aucun outil du groupe (D-17).
+  du groupe. Seul le cas 1 passe par Arche ; dans les cas 2 et 3, le client n'a accès à aucun outil du groupe (D-17).
 
 - Numéro `AF-AAAA-NNNN`, client (D-3), site de livraison, chargé d'affaires, équipe, origine : demande d'un client
   externe, **besoin machine d'un CAPEX d'Arche** (référence du besoin `CPX-…/B01`), appel d'offres, renouvellement.

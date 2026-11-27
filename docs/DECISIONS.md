@@ -35,16 +35,16 @@
 
 ## 3. Modèle d'affaires du groupe (réponse D-3)
 
-Les filiales du groupe EPC, dans plusieurs pays, fournissent de l'explosif aux clients miniers : soit produit dans la filiale
+Les filiales du groupe, dans plusieurs pays, fournissent de l'explosif aux clients miniers : soit produit dans la filiale
 puis livré sur le site minier, soit produit sur le site minier par des équipements qui y sont installés (c'est le périmètre
-des CAPEX, Arche). EPC2i conçoit et fournit les équipements de production, les livre, les installe, les met en production et
+des CAPEX, Arche). L'ingénierie du groupe conçoit et fournit les équipements de production, les livre, les installe, les met en production et
 forme les opérateurs. Trois cas de vente d'équipements :
 
 | Cas | Acheteur de l'équipement | Exploitant | Passe par Arche ? | Client de l'affaire dans Modulus |
 | --- | --- | --- | --- | --- |
 | 1 | la filiale | la filiale (sur son site ou sur le site minier), qui vend la production | oui : CAPEX de la filiale | la filiale (client interne) |
 | 2 | le site minier, la filiale servant d'intermédiaire | le site minier | non (pas un investissement de la filiale) | le site minier, avec la filiale intermédiaire |
-| 3 | un client direct d'EPC2i | le client | non | le client externe |
+| 3 | un client direct du groupe | le client | non | le client externe |
 
 Conséquences pour Modulus : une affaire porte un **cas** (1, 2 ou 3), un **client** et, pour le cas 2, la **filiale
 intermédiaire** ; seul le cas 1 vient d'un CAPEX d'Arche. Pour les cas 2 et 3, le client n'a accès à aucun outil du groupe :
@@ -90,7 +90,8 @@ Liste, format et modèle de chaque donnée : `docs/DONNEES.md` (modèles CSV dan
 
 ## 7. Questionnaire
 
-Les questions D-1 à D-17, U-1, U-2 et les données sont dans le questionnaire « Décisions Modulus » (page publiée,
-réponses dans sa base, collection `answers`, un document par question : `choice` = default | altN | other | discuss,
-`note`). Source : `scripts/questionnaire/questions.json` ; page : `node norma/outils/questionnaire/build.mjs` (modèle de Norma, réglages `scripts/questionnaire/config.json`). Les réponses sont
-relues avant chaque livraison et reportées ici.
+Les questions D-1 à D-17, U-1, U-2 et les données étaient dans le questionnaire « Décisions Modulus » (page retirée par
+Norma 3.0). Elles sont reprises, avec les réponses déjà données, dans `decisions/modulus.json` du dépôt Norma et montrées
+sur la page unique « Suivi Atrium » (https://claude.ai/artifact/Rs7kooJdowShdYUqNS8jQf ; réponses dans sa base, collection
+`answers`, un document par question). Les réponses sont relues avant chaque livraison et reportées ici ; une nouvelle
+question s'ajoute à `decisions/modulus.json` dans Norma.

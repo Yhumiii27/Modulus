@@ -447,7 +447,7 @@ export async function seedDemo(tx: Tx): Promise<void> {
   await qualify(r17, 'feasible', 'Faisable avec le doseur de la gamme additifs ; essai en atelier conseillé. Proche du préchauffage émulsion livré en 2025.', 'never', '2026-11-10');
   await estimate(r17, { m: 14, s: 0, eh: 80, wh: 60, sh: 16, x: 1, sale: 38, weeks: 4, assumptions: 'Automate du site compatible Profinet. Additif fourni par la filiale. Pas de zone ATEX.', deltas: [['ART-910330', 'Doseur volumétrique additif 0,5–3 kg/t', 1, 'u'], ['ART-910902', 'Cuve additif calorifugée 1 m³', 1, 'u'], ['ART-910508', 'Sonde de température matrice', 2, 'u']] });
   for (const [name, body, on] of [
-    ['Marc Lenoir', 'Qualifiée faisable. Question au demandeur : l’additif est-il fourni par la filiale ou par EPC2i ?', '2026-11-10'],
+    ['Marc Lenoir', 'Qualifiée faisable. Question au demandeur : l’additif est-il fourni par la filiale ou par le groupe ?', '2026-11-10'],
     ['Filiale Exemple Nord (via Arche)', 'Fourni par la filiale, livré en IBC de 1 m³.', '2026-11-12'],
     ['Camille Arnaud', 'Chiffrage en cours, réponse prévue le 24 nov. (classe devis).', '2026-11-21'],
   ] as const) await tx.insert(quoteMessages).values({ requestId: r17, authorName: name, body, createdAt: at(on, 10) });

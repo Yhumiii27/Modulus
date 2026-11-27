@@ -1,6 +1,6 @@
 # Modulus
 
-Outil du service commercial et chiffrage de la suite EPC2I : catalogue des machines standard et de leurs options, BOM
+Outil du service commercial et chiffrage de la suite Atrium : catalogue des machines standard et de leurs options, BOM
 préfaites, prix (budget et vente), affaires et offres, configurations vendues, cotation des options hors catalogue,
 carte du savoir-faire.
 
